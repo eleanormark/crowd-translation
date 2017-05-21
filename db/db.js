@@ -19,16 +19,20 @@ db.Sequelize = Sequelize;
 db.connection = connection;
 
 //Models/tables
-db.users = require('../models/users.js')(connection, Sequelize);
+db.answers = require('../models/answers.js')(connection, Sequelize);
 db.comments = require('../models/comments.js')(connection, Sequelize);
 db.posts = require('../models/posts.js')(connection, Sequelize);
-db.googleTranslation = require('../models/googleTranslation.js')(connection, Sequelize);
+db.users = require('../models/users.js')(connection, Sequelize);
+db.votes = require('../models/votes.js')(connection, Sequelize);
 
 //Relations
-db.comments.belongsTo(db.posts);
-db.googleTranslation.belongsTo(db.post);
-db.posts.hasMany(db.comments);
+db.answers.belongsTo(db.posts);
+db.answers.hasMany(db.comments);
+db.comments.belongsTo(db.answers);
+db.posts.hasMany(db.answers);
 db.posts.belongsTo(db.users);
 db.users.hasMany(db.posts);
+db.votes.belongsTo(db.answers)
+
 
 module.exports = db;
